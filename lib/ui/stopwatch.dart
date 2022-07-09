@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:stop_watch/ui/elapsed_time_text.dart';
 
 class Stopwatch extends StatefulWidget {
@@ -10,26 +11,27 @@ class Stopwatch extends StatefulWidget {
   _StopwatchState createState() => _StopwatchState();
 }
 
-class _StopwatchState extends State<Stopwatch> {
+class _StopwatchState extends State<Stopwatch>
+    with SingleTickerProviderStateMixin {
   late DateTime _initialTime;
-  late final Timer _timer;
+  late final Ticker _ticker;
   Duration _elapsed = Duration.zero;
 
   @override
   void initState() {
     super.initState();
     _initialTime = DateTime.now();
-    _timer = Timer.periodic(Duration(milliseconds: 50), (_) {
-      final now = DateTime.now();
+    _ticker = createTicker((elapsed) {
       setState(() {
-        _elapsed = now.difference(_initialTime);
+        _elapsed = elapsed;
       });
     });
+    _ticker.start();
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+    _ticker.stop();
     super.dispose();
   }
 
