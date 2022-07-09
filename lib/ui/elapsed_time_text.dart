@@ -40,7 +40,7 @@ class TimeDigit extends StatelessWidget {
       width: width,
       child: Text(
         text,
-        style: TextStyle(fontSize: 40),
+        style: const TextStyle(fontSize: 40),
         textAlign: TextAlign.center,
       ),
     );
