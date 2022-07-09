@@ -38,8 +38,15 @@ class _StopwatchState extends State<Stopwatch>
 
   @override
   Widget build(BuildContext context) {
-    return StopwatchRenderer(
-      elapsed: _elapsed,
+    return Stack(
+      children: [
+        Container(
+          color: Colors.indigo,
+        ),
+        StopwatchRenderer(
+          elapsed: _elapsed,
+        ),
+      ],
     );
   }
 }
