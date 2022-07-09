@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:stop_watch/ui/elapsed_time_text.dart';
 
@@ -11,8 +13,21 @@ class StopwatchRenderer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElapsedTimeText(
-      elapsed: elapsed,
+    return Stack(
+      children: [
+        Transform(
+          transform: Matrix4.identity()
+            ..translate(50.0, 0.0, 0.0)
+            ..rotateZ(pi / 4),
+          alignment: Alignment.center,
+          child: Container(
+            color: Colors.indigo,
+          ),
+        ),
+        // ElapsedTimeText(
+        //   elapsed: elapsed,
+        // ),
+      ],
     );
   }
 }
