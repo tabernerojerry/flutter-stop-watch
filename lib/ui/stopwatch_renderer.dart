@@ -25,6 +25,16 @@ class StopwatchRenderer extends StatelessWidget {
             top: radius,
             child: ClockSecondsTickMarker(seconds: i, radius: radius),
           ),
+        for (var i = 5; i <= 60; i += 5)
+          Positioned(
+            left: radius,
+            top: radius,
+            child: ClockTextMarker(
+              value: i,
+              maxValue: 60,
+              radius: radius,
+            ),
+          ),
         Positioned(
           left: radius,
           top: radius,
