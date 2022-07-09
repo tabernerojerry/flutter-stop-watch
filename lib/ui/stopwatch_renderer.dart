@@ -5,25 +5,23 @@ import 'package:stop_watch/ui/elapsed_time_text.dart';
 
 class StopwatchRenderer extends StatelessWidget {
   final Duration elapsed;
+  final double radius;
 
   const StopwatchRenderer({
     Key? key,
     required this.elapsed,
+    required this.radius,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Transform(
-          transform: Matrix4.identity()
-            ..translate(50.0, 0.0, 0.0)
-            ..rotateZ(pi / 4),
-          alignment: Alignment.center,
-          child: Container(
-            color: Colors.indigo,
-          ),
-        ),
+        Container(
+          decoration: BoxDecoration(
+              border: Border.all(width: 3, color: Colors.green),
+              borderRadius: BorderRadius.circular(radius)),
+        )
         // ElapsedTimeText(
         //   elapsed: elapsed,
         // ),
