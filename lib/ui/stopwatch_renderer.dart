@@ -49,7 +49,7 @@ class StopwatchRenderer extends StatelessWidget {
         Positioned(
           left: 0,
           right: 0,
-          bottom: radius * 0.5,
+          bottom: radius * 1,
           child: ElapsedTimeText(
             elapsed: elapsed,
           ),
