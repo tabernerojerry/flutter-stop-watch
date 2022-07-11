@@ -1,66 +1,34 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:stop_watch/ui/elapsed_time_text.dart';
 import 'package:stop_watch/ui/reset_button.dart';
 import 'package:stop_watch/ui/start_stop_button.dart';
 import 'package:stop_watch/ui/stopwatch_renderer.dart';
+import 'package:stop_watch/ui/stopwatch_ticker_ui.dart';
 
 class Stopwatch extends StatefulWidget {
   const Stopwatch({Key? key}) : super(key: key);
 
   @override
-  _StopwatchState createState() => _StopwatchState();
+  StopwatchState createState() => StopwatchState();
 }
 
-class _StopwatchState extends State<Stopwatch>
+class StopwatchState extends State<Stopwatch>
     with SingleTickerProviderStateMixin {
-  late DateTime _initialTime;
-  late final Ticker _ticker;
+  /// Global key used to manipulate the state of the StopwatchTickerUI
+  final _tickerUIKey = GlobalKey<StopwatchTickerUiState>();
   bool _isRunning = false;
-  Duration _previousElapsed = Duration.zero;
-  Duration _currentElapsed = Duration.zero;
-  Duration get _elapsed => _previousElapsed + _currentElapsed;
-
-  @override
-  void initState() {
-    super.initState();
-    _initialTime = DateTime.now();
-    _ticker = createTicker((elapsed) {
-      setState(() {
-        _currentElapsed = elapsed;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _ticker.stop();
-    super.dispose();
-  }
 
   void _toggleRunning() {
     setState(() {
       _isRunning = !_isRunning;
-
-      if (_isRunning) {
-        _ticker.start();
-      } else {
-        _ticker.stop();
-        _previousElapsed += _currentElapsed;
-        _currentElapsed = Duration.zero;
-      }
     });
+    _tickerUIKey.currentState?.toggleRunning(_isRunning);
   }
 
   void _reset() {
-    _ticker.stop();
     setState(() {
       _isRunning = false;
-      _previousElapsed = Duration.zero;
-      _currentElapsed = Duration.zero;
     });
+    _tickerUIKey.currentState?.reset();
   }
 
   @override
@@ -71,7 +39,10 @@ class _StopwatchState extends State<Stopwatch>
         return Stack(
           children: [
             StopwatchRenderer(
-              elapsed: _elapsed,
+              radius: radius,
+            ),
+            StopwatchTickerUi(
+              key: _tickerUIKey,
               radius: radius,
             ),
             Align(

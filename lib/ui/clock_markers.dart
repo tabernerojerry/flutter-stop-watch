@@ -14,8 +14,9 @@ class ClockSecondsTickMarker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = seconds % 5 == 0 ? Colors.white : Colors.grey[700];
-    const width = 2.0;
+    final isMiddleMarker = seconds % 5 == 0;
+    final color = isMiddleMarker ? Colors.white : Colors.grey[700];
+    final width = isMiddleMarker ? 3.0 : 2.0;
     const height = 12.0;
 
     return Transform(
